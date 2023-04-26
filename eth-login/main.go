@@ -16,6 +16,7 @@ import (
 )
 
 var baseUrl = "http://localhost:8081"
+
 var globalPrivateKey = "2ac034f466c964e913f86442ccd772824c4a8275c0b107aa1b4b9a0b5e84b454"
 
 func main() {
@@ -40,6 +41,7 @@ func doLogin() error {
 	}
 
 	address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
+	fmt.Println("address:", address)
 
 	fmt.Println("challenging..")
 	// get message by calling challenge
@@ -109,6 +111,7 @@ func challenge(address string) (string, error) {
 // eth login with message and signature, get tokens
 func login(message, signature string) error {
 	client := &http.Client{Timeout: time.Minute}
+	_ = client
 	url := baseUrl + "/login"
 	fmt.Println("url: ", url)
 

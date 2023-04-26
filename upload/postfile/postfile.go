@@ -1,7 +1,8 @@
-package main
+package postfile
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -11,13 +12,13 @@ import (
 	"golang.org/x/xerrors"
 )
 
-func main() {
+func PostFile(uploadUrl, filepath, accessToken string) {
 	// create multipart form data buffer
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
 
 	// add file to form data
-	file, err := os.Open("./test.data")
+	file, err := os.Open(filepath)
 	if err != nil {
 		panic(err)
 	}
@@ -41,13 +42,14 @@ func main() {
 	}
 
 	// create request with form data and headers
-	req, err := http.NewRequest("POST", "http://localhost:8081/mefs", &requestBody)
+	req, err := http.NewRequest("POST", uploadUrl, &requestBody)
 	if err != nil {
 		panic(err)
 	}
 	req.Header.Set("Content-Type", writer.FormDataContentType())
-	accessToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoxLCJhdWQiOiJtZW1vLmlvIiwiZXhwIjoxNjgyNDE2ODg4LCJpYXQiOjE2ODI0MTU5ODgsImlzcyI6Im1lbW8uaW8iLCJzdWIiOiIweDcyMTA0NzYxZTcwMEZiOTZFMTBEYTU5NjBmMjU3NDZlODdjMTk0M0EifQ.qQ4pGu4376un4GtY3es7IVhXpEdLWj6Es2Y5TFsx9vY"
 	req.Header.Set("Authorization", "Bearer "+accessToken)
+
+	fmt.Println("type:", writer.FormDataContentType())
 
 	// send request
 	client := &http.Client{}

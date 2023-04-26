@@ -29,8 +29,8 @@ func Login(message, signature string) (string, string, error) {
 		return "", "", err
 	}
 
-	//fmt.Println("payload in json:")
-	//fmt.Println(string(b))
+	fmt.Println("payload in json:")
+	fmt.Println(string(b))
 
 	req, err := http.NewRequest("POST", loginUrl, bytes.NewReader(b))
 	if err != nil {
