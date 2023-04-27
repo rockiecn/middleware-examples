@@ -1,4 +1,4 @@
-module github.com/ethereum/go-ethereum/common
+module github.com/rockiecn/middleware-examples/common
 
 go 1.18
 
