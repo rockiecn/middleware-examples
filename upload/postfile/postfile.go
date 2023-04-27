@@ -13,7 +13,7 @@ import (
 )
 
 func PostFile(uploadUrl, filepath, accessToken string) {
-	// create multipart form data buffer
+	// request body
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
 
@@ -23,16 +23,17 @@ func PostFile(uploadUrl, filepath, accessToken string) {
 		panic(err)
 	}
 	defer file.Close()
+	// add a form-data for body
 	part, err := writer.CreateFormFile("file", file.Name())
 	if err != nil {
 		panic(err)
 	}
-	// copy file into request body
+	// copy file into form-data
 	if _, err := io.Copy(part, file); err != nil {
 		panic(err)
 	}
 
-	// add any additional form fields
+	// add any additional form fields for body
 	//writer.WriteField("field1", "value1")
 	//writer.WriteField("field2", "value2")
 
@@ -41,11 +42,12 @@ func PostFile(uploadUrl, filepath, accessToken string) {
 		panic(err)
 	}
 
-	// create request with form data and headers
+	// requset with body
 	req, err := http.NewRequest("POST", uploadUrl, &requestBody)
 	if err != nil {
 		panic(err)
 	}
+	// request headers
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 	req.Header.Set("Authorization", "Bearer "+accessToken)
 

@@ -1,18 +1,23 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 
-	"github.com/rockiecn/middleware-examples/common/common"
-	"github.com/rockiecn/middleware-examples/lens-login/challenge"
+	"github.com/rockiecn/middleware-examples/common"
+	"github.com/rockiecn/middleware-examples/lenslogin/challenge"
 )
 
 func main() {
+	// url for backend
+	baseUrl := flag.String("url", "http://localhost:8081", "url for backend")
+	// sk
+	sk := flag.String("sk", "", "an sk of wallet must be given")
 
-	sk := "b00e70c9ba025b1c9decd605707c5b300017a29907527b8023d20e41ff9f62cc"
+	flag.Parse()
 
-	address, err := common.SkToAddress(sk)
+	address, err := common.SkToAddress(*sk)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,7 +29,7 @@ func main() {
 	}
 
 	// sign with message and sk
-	sig, err := common.Sign(message, sk)
+	sig, err := common.Sign(message, *sk)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,7 +38,7 @@ func main() {
 	fmt.Println("signature: ", sig)
 
 	// url for lens login in backend
-	loginUrl := "http://localhost:8081/lens/login"
+	loginUrl := *baseUrl + "/lens/login"
 
 	// lens login to get tokens
 	accessToken, refreshToken, err := common.Login(loginUrl, message, sig)
