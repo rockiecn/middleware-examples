@@ -1,4 +1,4 @@
-module github.com/rockiecn/middleware-test/eth-login
+module github.com/rockiecn/middleware-examples/eth-login
 
 go 1.18
 
