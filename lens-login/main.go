@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/rockiecn/middleware-examples/common"
+	"github.com/rockiecn/middleware-examples/common/common"
 	"github.com/rockiecn/middleware-examples/lens-login/challenge"
 )
 
