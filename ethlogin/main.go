@@ -43,7 +43,7 @@ func main() {
 	// url for eth login in backend
 	loginUrl := *baseUrl + "/login"
 
-	// lens login to get tokens
+	// eth login to get tokens
 	accessToken, refreshToken, err := common.Login(loginUrl, message, sig)
 	if err != nil {
 		log.Fatal(err)
